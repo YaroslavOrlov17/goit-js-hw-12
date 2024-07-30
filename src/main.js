@@ -13,11 +13,13 @@ let inputValue;
 let page = 1;
 
 function handleSubmit(event) {
+  fetchImagesBtn.classList.add('visually-hidden');
   event.preventDefault();
   galleryList.innerHTML = '';
   loader.classList.remove('visually-hidden');
 
   inputValue = input.value.trim();
+
   if (inputValue === '') {
     loader.classList.add('visually-hidden');
     return;
@@ -39,6 +41,7 @@ function handleSubmit(event) {
         });
       } else {
         loader.classList.add('visually-hidden');
+        fetchImagesBtn.classList.remove('visually-hidden');
         renderImages(images, galleryList);
       }
     })
