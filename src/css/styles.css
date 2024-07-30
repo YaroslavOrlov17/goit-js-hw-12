@@ -68,6 +68,22 @@ img {
   transition: 250ms ease;
 }
 
+button {
+  border: none;
+  width: 125px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: #4e75ff;
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+  /* 150% */
+  letter-spacing: 0.64px;
+  transition: 250ms ease;
+}
+
 button:hover {
   background-color: #6c8cff;
 }
@@ -80,7 +96,6 @@ button:hover {
   flex-wrap: wrap;
   gap: 24px;
 }
-
 
 .gallery li img {
   width: 360px;
@@ -128,15 +143,13 @@ button:hover {
   transform: translate(-50%, -50%);
   width: 48px;
   height: 48px;
-  border: 5px solid #FFF;
+  border: 5px solid #fff;
   border-bottom-color: #6c8cff;
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
-
-
 
 @keyframes rotation {
   0% {
@@ -147,9 +160,6 @@ button:hover {
     transform: rotate(360deg);
   }
 }
-
-
-
 
 .visually-hidden {
   position: absolute;

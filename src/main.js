@@ -11,10 +11,13 @@ const loader = document.querySelector('.loader');
 const fetchImagesBtn = document.querySelector('.btn');
 let inputValue;
 let page = 1;
+let limit = 15;
+let totalPages = 0;
 
 function handleSubmit(event) {
   fetchImagesBtn.classList.add('visually-hidden');
   event.preventDefault();
+
   galleryList.innerHTML = '';
   loader.classList.remove('visually-hidden');
 
@@ -29,6 +32,7 @@ function handleSubmit(event) {
 
   fetchImages(inputValue, page)
     .then(images => {
+      totalPages = Math.ceil(images.totalHits / limit);
       loader.classList.add('visually-hidden');
       if (images.hits.length === 0) {
         iziToast.error({
@@ -54,8 +58,21 @@ function handleSubmit(event) {
 
 async function handleClick(event) {
   page += 1;
+  if (page > totalPages) {
+    fetchImagesBtn.classList.add('visually-hidden');
+    return iziToast.error({
+      position: 'topRight',
+      message: "We're sorry, there are no more posts to load",
+    });
+  }
   const newPage = await fetchImages(inputValue, page);
   renderImages(newPage, galleryList);
+  const firstCard = document.querySelector('.gallery li');
+  const cardHeight = firstCard.getBoundingClientRect().height;
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
 }
 
 form.addEventListener('submit', handleSubmit);
