@@ -50,7 +50,14 @@ function handleSubmit(event) {
       }
     })
     .catch(error => {
-      console.error(error);
+      iziToast.error({
+        maxWidth: '370px',
+        position: 'topRight',
+        messageColor: 'white',
+        backgroundColor: 'red',
+        message: 'Request feiled. Please try again',
+      });
+      loader.classList.add('visually-hidden');
     });
 
   form.reset();
