@@ -2,24 +2,30 @@ import { fetchImages } from './js/pixabay-api';
 import { renderImages } from './js/render-function';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
+import axios from 'axios';
 
 const form = document.querySelector('.form');
 const input = document.querySelector('.input');
 const galleryList = document.querySelector('.gallery');
 const loader = document.querySelector('.loader');
+const fetchImagesBtn = document.querySelector('.btn');
+let inputValue;
+let page = 1;
 
 function handleSubmit(event) {
   event.preventDefault();
   galleryList.innerHTML = '';
   loader.classList.remove('visually-hidden');
 
-  const inputValue = input.value.trim();
+  inputValue = input.value.trim();
   if (inputValue === '') {
     loader.classList.add('visually-hidden');
     return;
   }
 
-  fetchImages(inputValue)
+  page = 1;
+
+  fetchImages(inputValue, page)
     .then(images => {
       loader.classList.add('visually-hidden');
       if (images.hits.length === 0) {
@@ -43,4 +49,11 @@ function handleSubmit(event) {
   form.reset();
 }
 
+async function handleClick(event) {
+  page += 1;
+  const newPage = await fetchImages(inputValue, page);
+  renderImages(newPage, galleryList);
+}
+
 form.addEventListener('submit', handleSubmit);
+fetchImagesBtn.addEventListener('click', handleClick);
