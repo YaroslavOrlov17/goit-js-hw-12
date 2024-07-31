@@ -11,7 +11,7 @@ const loader = document.querySelector('.loader');
 const fetchImagesBtn = document.querySelector('.btn');
 let inputValue;
 let page = 1;
-let limit = 100;
+let limit = 15;
 let totalPages = 0;
 
 function handleSubmit(event) {
