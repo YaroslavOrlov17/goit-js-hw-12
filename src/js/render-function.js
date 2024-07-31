@@ -1,10 +1,15 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
+const gallerySL = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 export function renderImages(images, galleryList) {
-    const markup = images.hits
-        .map(
-            image => `
+  const markup = images.hits
+    .map(
+      image => `
       <li>
         <a class="gallery-link" href=${image.largeImageURL}>
           <img src="${image.webformatURL}" alt="${image.tags}">
@@ -16,14 +21,10 @@ export function renderImages(images, galleryList) {
           </div>
         </a>
       </li>`
-        )
-        .join('');
+    )
+    .join('');
 
-    galleryList.insertAdjacentHTML('beforeend', markup);
+  galleryList.insertAdjacentHTML('beforeend', markup);
 
-    let gallerySL = new SimpleLightbox('.gallery a', {
-        captionsData: 'alt',
-        captionDelay: 250,
-    });
-    gallerySL.refresh();
+  gallerySL.refresh();
 }

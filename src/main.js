@@ -11,13 +11,13 @@ const loader = document.querySelector('.loader');
 const fetchImagesBtn = document.querySelector('.btn');
 let inputValue;
 let page = 1;
-let limit = 15;
+let limit = 100;
 let totalPages = 0;
 
 function handleSubmit(event) {
-  fetchImagesBtn.classList.add('visually-hidden');
   event.preventDefault();
 
+  fetchImagesBtn.classList.add('visually-hidden');
   galleryList.innerHTML = '';
   loader.classList.remove('visually-hidden');
 
@@ -44,9 +44,10 @@ function handleSubmit(event) {
             'Sorry, there are no images matching your search query. Please try again!',
         });
       } else {
-        loader.classList.add('visually-hidden');
-        fetchImagesBtn.classList.remove('visually-hidden');
         renderImages(images, galleryList);
+        if (page < totalPages) {
+          fetchImagesBtn.classList.remove('visually-hidden');
+        }
       }
     })
     .catch(error => {
@@ -65,21 +66,24 @@ function handleSubmit(event) {
 
 async function handleClick(event) {
   page += 1;
-  if (page > totalPages) {
-    fetchImagesBtn.classList.add('visually-hidden');
-    return iziToast.error({
-      position: 'topRight',
-      message: "We're sorry, there are no more posts to load",
-    });
-  }
+
   const newPage = await fetchImages(inputValue, page);
   renderImages(newPage, galleryList);
+
   const firstCard = document.querySelector('.gallery li');
   const cardHeight = firstCard.getBoundingClientRect().height;
   window.scrollBy({
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+
+  if (page >= totalPages) {
+    fetchImagesBtn.classList.add('visually-hidden');
+    return iziToast.error({
+      position: 'topRight',
+      message: "We're sorry, there are no more posts to load",
+    });
+  }
 }
 
 form.addEventListener('submit', handleSubmit);
